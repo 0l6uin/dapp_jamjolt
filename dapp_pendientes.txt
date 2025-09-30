@@ -1,0 +1,20 @@
+recording page
+
+1. condicionar uso de funcionalidades a la autentificación
+2. agregar botón de música
+3. sincronizar recording time con la reproducción de la música 
+4. agregar cuadro de texto con la lírica
+5. sincronizar el avance de la lírica con la música y la grabación
+6. agregar opción de esconder el cuadro de texto si el usuario no lo desea
+	6.1 modificar tamaño de pantalla de camara
+7. inhabilitar the cámara, botón de recording, botón de stop cuando el número de intentos es 0
+8. solucionar problema "not supported" con cámara y audio
+	# ocurre cuando se doble cliquea el botón que activa la música o cámara
+9. cuando se actualizar la página, se actualiza el número de intentos.
+	# 
+10. que los intentos y grabaciones estén asociados a usuarios.
+11. la cámara presenta el error:
+	# aparece una ventana transparente negra que cubre la página aún activa
+	# 	Uncaught runtime errors:
+			Error
+			the element has no supported sources.
