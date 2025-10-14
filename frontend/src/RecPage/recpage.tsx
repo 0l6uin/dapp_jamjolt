@@ -19,7 +19,7 @@ type AuthResult = {
     username: string
   }
 };
-type User = AuthResult['user'];
+export type User = AuthResult['user'];
 
 // Backend Configuration
 // Make TS accept the existence of our window.__ENV object - defined in index.html:
