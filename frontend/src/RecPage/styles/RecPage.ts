@@ -1,28 +1,29 @@
 import style from 'styled-components';
-import backgroundImage from '../assets/background.jpg';
+import backgroundImage from '../assets/background.png';
 
 export const Container = style.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
-  height: 100vh;
-  width: 100vw;
+  justify-content: center;
+  min-height: 100vh;
+  min-width: 100vw;
   top: 0;
   left: 0;
   margin: 0;
   padding: 0;
   background-image: url(${backgroundImage});
-  background-size: cover; /* Ensures image covers the container */
+  background-size: auto; /* Ensures image covers the container */
   background-position: center; /* Centers the image */
   background-repeat: no-repeat; /* Prevents tiling */
+  background-color: black;
   box-sizing: border-box; /* Ensures padding doesn't increase size */
   text-align: center;
   position: absolute;
 
   /* Responsive adjustments */
-  @media (min-width: 768px) {
-    padding: 0px;
+  @media {
+    background-size: 390px 880px;
   }
 `;
 
@@ -57,11 +58,10 @@ export const LyricBox = style.div`
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  min-height: 100vh;
   width: 80%;
-  max-width: 300px;
+  max-width: 350px;
   min-height: auto;
-  margin: 10px 0px;
+  margin: 25px 25px;
   border-radius: 15px;
   border:  1px solid rgba(244, 26, 6, 0.78);
   text-align: left;
@@ -74,7 +74,7 @@ export const LyricBox = style.div`
 
   /* Responsive adjustments */
   @media (min-width: 768px) {
-    padding: 20px;
+    padding: 15px;
   }
 `;
 

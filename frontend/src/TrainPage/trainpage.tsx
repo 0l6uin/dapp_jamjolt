@@ -139,12 +139,10 @@ const TrainPage: React.FC = () => {
   const getVisibleLyrics = () => {
     if (activeLine === -1) {
       // Show first three lines before music starts
-      return lyrics.slice(0, 3);
+      return lyrics.slice(0, 1);
     }
-    const prevLine = activeLine > 0 ? lyrics[activeLine -1] : null;
     const currentLine = lyrics[activeLine] || null;
-    const nextLine = activeLine < lyrics.length -1 ? lyrics[activeLine + 1] : null;
-    return [prevLine, currentLine, nextLine].filter((line) => line !== null) as Lyric[];
+    return [ currentLine ].filter((line) => line !== null) as Lyric[];
   };
 
   return (
@@ -152,36 +150,34 @@ const TrainPage: React.FC = () => {
       <VideoScreen>
         <iframe
           src="https://www.youtube.com/embed/watch?v=wCCfc2vAuDU"
-          title="I Heard It Through The Grapevine"
+          title="I Heard It Through The Grapevine (Official Music Video)"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen
         />
       </VideoScreen>
+
+      <LyricBox>
+      {getVisibleLyrics().map((lyric, index, array) => {
+        const isActive = array[1]?.text === lyric.text && activeLine >= 0; // Middle line is active
+        return isActive ? (
+          <ActiveLine key={lyric.text}>{lyric.text}</ActiveLine>
+        ) : (
+          <DefaultLine key={lyric.text}>{lyric.text}</DefaultLine>
+        );
+      })}
+    </LyricBox>
+
       <Nav>
         <ButtonMusic onClick={handlePlayMusic}>
-          <p> Train </p>
           {isPlayingMusic ? <Pause fontSize="large" /> : <MusicNote fontSize="large" />}
         </ButtonMusic>
         <ButtonMusic onClick={handlePlaySong}>
-          <p>Listen</p>
           {isPlayingSong ? <Pause fontSize="large" /> : <PlayArrow fontSize="large" />}
         </ButtonMusic>
         <ButtonMusic onClick={handleStop}>
-          <p>Stop</p>
           <Stop fontSize="large" />
         </ButtonMusic>
       </Nav>
-
-      <LyricBox>
-        {getVisibleLyrics().map((lyric, index, array) => {
-          const isActive = array[1]?.text === lyric.text && activeLine >= 0; // Middle line is active
-          return isActive ? (
-            <ActiveLine key={lyric.text}>{lyric.text}</ActiveLine>
-          ) : (
-            <DefaultLine key={lyric.text}>{lyric.text}</DefaultLine>
-          );
-        })}
-      </LyricBox>
 
       {<Nav>
         <Button onClick={() => navigate('/')}>BACK</Button>

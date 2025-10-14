@@ -1,5 +1,5 @@
 import style from 'styled-components';
-import backgroundImage from '../assets/background.jpg';
+import backgroundImage from '../assets/background.png';
 
 export const Container = style.div`
   display: flex;
@@ -13,32 +13,33 @@ export const Container = style.div`
   margin: 0;
   padding: 0;
   background-image: url(${backgroundImage});
-  background-size: cover; /* Ensures image covers the container */
+  background-size: auto; /* Ensures image covers the container */
   background-position: center; /* Centers the image */
   background-repeat: no-repeat; /* Prevents tiling */
+  background-color: black;
   box-sizing: border-box; /* Ensures padding doesn't increase size */
   text-align: center;
   position: absolute;
 
   /* Responsive adjustments */
-  @media (min-width: 768px) {
-    padding: 0px;
+  @media {
+    background-size: 390px 880px;
   }
 `;
 
 export const ButtonMusic = style.button`
   flex-direction: row;
   color: #FFD700;
-  border: none;
-  background: gray;
-  border-radius: 15px;
-  margin: 20px 20px;
-  padding: 0 20px;;
+  border: 2px solid;
+  background: black;
+  border-radius: 100%;
+  margin: 25px 25px;
+  padding: 10px 10px;
   font-size: 20px;
   font-weight: 600;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
-  text-align: center;
+  item-align: center;
 
   &:hover {
     background-color: #0056b3;
@@ -46,20 +47,18 @@ export const ButtonMusic = style.button`
   }
 
   @media (min-width: 768px) {
-    font-size: 1.1rem;
-    padding: 14px 24px;
-    max-width: 250px;
+    padding: 10px 10px;
   }
 `;
 
 export const VideoScreen = style.div`
- border-radius: 25px;
+ border-radius: 20px;
  overflow: hidden; /* Ensures content respects the border-radius */
  position: relative;
- height: 295px; /* Allows padding-bottom to control height */
- width: 100%; /* Responsive width */
- max-width: 350px; /* Optional: limits max width */
- margin: 0 auto; /* Centers the video */
+ height: 200px; /* Allows padding-bottom to control height */
+ width: 80%; /* Responsive width */
+ max-width: 350px;
+ margin: 25px 25px; /* Centers the video */
  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adds a subtle shadow */
  background-color: #f9f9f9; /* Light background for contrast */
 
@@ -70,7 +69,7 @@ export const VideoScreen = style.div`
     width: 100%;
     height: 100%;
     border: none; /* Removes iframe border */
-    border-radius: 25px; /* Matches the parent container */
+    border-radius: 15px; /* Matches the parent container */
   }
 `;
 export const LyricBox = style.div`
@@ -79,11 +78,10 @@ export const LyricBox = style.div`
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  min-height: 100vh;
   width: 80%;
-  max-width: 300px;
+  max-width: 350px;
   min-height: auto;
-  margin: 10px 0px;
+  margin: 25px 25px;
   border-radius: 15px;
   border:  1px solid rgba(244, 26, 6, 0.78);
   text-align: left;
@@ -120,7 +118,7 @@ export const Nav = style.nav`
 export const Button = style.button`
   background-color: #FFD700;
   color: black;
-  border: 1px solid #FFD700;
+  border: 2px solid black;
   border-radius: 15px;
   padding: 12px 24px;
   margin: 20px 50px;
@@ -138,8 +136,8 @@ export const Button = style.button`
   }
 
   @media (min-width: 768px) {
-    font-size: 1.1rem;
-    padding: 14px 32px;
+    font-size: 1rem;
+    padding: 14px 24px;
     max-width: 250px;
   }
 `;

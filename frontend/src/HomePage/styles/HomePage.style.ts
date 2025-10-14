@@ -1,6 +1,6 @@
 // src/HomePage/styles/HomePage.styled.ts
 import styled from 'styled-components';
-import backgroundImage from '../components/background.jpg';
+import backgroundImage from '../components/background.png';
 
 
 export const Container = styled.div`
@@ -15,10 +15,10 @@ export const Container = styled.div`
   margin: 0;
   padding: 0;
   background-image: url(${backgroundImage});
-  background-size: cover; /* Ensures image covers the container */
+  background-size: 390px 880px; /* Ensures image covers the container */
   background-position: center; /* Centers the image */
   background-repeat: no-repeat; /* Prevents tiling */
-  background-color: rgba(255, 204, 0, 0.873);
+  background-color: black;
   box-sizing: border-box; /* Ensures padding doesn't increase size */
   text_align: center;
   position: absolute;
@@ -43,6 +43,7 @@ export const Logo = styled.img`
 export const Nav = styled.nav`
   display: flex;
   flex-direction: column;
+  background: none;
   gap: 1.5rem;
   align-items: center;
   width: 100%;
@@ -61,7 +62,7 @@ export const Button = styled.button`
   font-weight: 750;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
-  width: 250px;
+  width: 150px;
   heigth: 70px;
   text-align: center;
 
@@ -78,7 +79,6 @@ export const Button = styled.button`
 `;
 
 export const Link = styled.a`
-  background: none;
   color: #0aacecff;
   border: none;
   padding: 0;

@@ -1,131 +1,80 @@
 // src/components/VideoRecorder.tsx
 import React, { useEffect, useRef, useState } from "react";
 
-interface VideoRecorderProps {
+interface Props {
   attemptsLeft: number;
   maxRecordingTime: number;
-  onStop: (blob: Blob) => void; // callback cuando termina la grabación
+  onStop: (blob: Blob) => void;
+  onStartRecording: (startFn: () => void) => void;
+  showCountdown: boolean;
+  countdown: number;
+  audioRef?: React.RefObject<HTMLAudioElement>;
 }
 
-export default function VideoRecorder({ attemptsLeft, maxRecordingTime, onStop }: VideoRecorderProps) {
-  const videoRef = useRef<HTMLVideoElement | null>(null);
-  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
-
-  const [stream, setStream] = useState<MediaStream | null>(null);
+export default function VideoRecorder({
+  attemptsLeft,
+  maxRecordingTime,
+  onStop,
+  onStartRecording,
+  showCountdown,
+  countdown
+}: Props) {
   const [recording, setRecording] = useState(false);
-  const [recordedBlob, setRecordedBlob] = useState<Blob | null>(null);
-  const [countdown, setCountdown] = useState<number | null>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const mediaRecorder = useRef<MediaRecorder | null>(null);
+  const chunks: BlobPart[] = [];
 
-  // Inicializa la cámara
   useEffect(() => {
-    async function setupCamera() {
-      try {
-        const mediaStream = await navigator.mediaDevices.getUserMedia({
-          video: true,
-          audio: true,
-        });
-        setStream(mediaStream);
-        if (videoRef.current) {
-          videoRef.current.srcObject = mediaStream;
-        }
-      } catch (err) {
-        console.error("Camera access denied:", err);
-      }
-    }
-    setupCamera();
+    navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then((stream) => {
+      if (videoRef.current) videoRef.current.srcObject = stream;
+    });
   }, []);
 
-  // Countdown de 3 segundos antes de grabar
-  const startCountdown = () => {
-    let counter = 3;
-    setCountdown(counter);
-    const interval = setInterval(() => {
-      counter--;
-      if (counter === 0) {
-        clearInterval(interval);
-        setCountdown(null);
-        startRecording();
-      } else {
-        setCountdown(counter);
-      }
-    }, 1000);
-  };
-
-  // Inicia la grabación
-  const startRecording = () => {
-    if (!stream || attemptsLeft <= 0) return;
-
-    setRecordedBlob(null); // limpia grabación previa
-    const recorder = new MediaRecorder(stream);
-    const chunks: BlobPart[] = [];
-
-    recorder.ondataavailable = (e) => {
-      if (e.data.size > 0) chunks.push(e.data);
-    };
-
-    recorder.onstop = () => {
+  const startRecording = async () => {
+    const stream = videoRef.current?.srcObject as MediaStream;
+    mediaRecorder.current = new MediaRecorder(stream);
+    mediaRecorder.current.ondataavailable = (e) => chunks.push(e.data);
+    mediaRecorder.current.onstop = () => {
       const blob = new Blob(chunks, { type: "video/webm" });
-      setRecordedBlob(blob);
-      onStop(blob); // avisa al padre que terminó la grabación
+      onStop(blob);
     };
-
-    recorder.start();
-    mediaRecorderRef.current = recorder;
+    mediaRecorder.current.start();
     setRecording(true);
-
-    // auto-stop a los X segundos
-    setTimeout(() => stopRecording(), maxRecordingTime);
+    setTimeout(stopRecording, maxRecordingTime);
   };
 
-  // Detiene la grabación
   const stopRecording = () => {
-    if (!mediaRecorderRef.current) return;
-    mediaRecorderRef.current.stop();
+    mediaRecorder.current?.stop();
     setRecording(false);
   };
 
   return (
-    <div style={{ flex: 1 }}>
-      {/* Cámara si aún no se grabó */}
-      {!recordedBlob && (
-        <video
-          ref={videoRef}
-          autoPlay
-          playsInline
-          style={{ width: "100%", border: "2px solid black" }}
-        />
-      )}
+    <div className="relative w-full flex flex-col items-center">
+      <video ref={videoRef} autoPlay muted className="rounded-xl shadow-lg w-[320px] h-[240px]" />
 
-      {/* Preview si ya se grabó */}
-      {recordedBlob && (
-        <div style={{ marginTop: "20px" }}>
-          <h3>Preview:</h3>
-          <video
-            src={URL.createObjectURL(recordedBlob)}
-            controls
-            style={{ width: "100%" }}
-          />
+      {/* Contador visible */}
+      {showCountdown && (
+        <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white text-6xl font-bold">
+          {countdown}
         </div>
       )}
 
-      {countdown && <h1>{countdown}</h1>}
-
-      {/* Controles */}
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          gap: "10px",
-          marginTop: "10px",
-        }}
-      >
-        <button disabled={recording || attemptsLeft <= 0} onClick={startCountdown}>
-          🎤 Record
+      <div className="mt-4 flex gap-3">
+        <button
+          disabled={recording || attemptsLeft <= 0}
+          onClick={() => onStartRecording(startRecording)}
+          className="bg-green-500 text-white px-4 py-2 rounded-xl"
+        >
+          Record
         </button>
-        <button disabled={!recording} onClick={stopRecording}>
-          ⏹ Stop
+        <button
+          disabled={!recording}
+          onClick={stopRecording}
+          className="bg-red-500 text-white px-4 py-2 rounded-xl"
+        >
+          Stop
         </button>
+        <p>Attempts left: {attemptsLeft}</p>
       </div>
     </div>
   );
