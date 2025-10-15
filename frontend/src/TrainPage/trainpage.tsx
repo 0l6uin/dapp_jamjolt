@@ -148,12 +148,14 @@ const TrainPage: React.FC = () => {
   return (
     <Container>
       <VideoScreen>
-        <iframe
+        <iframe 
+          width="681"
+          height="383"
           src="https://www.youtube.com/embed/wCCfc2vAuDU"
-          title="I Heard It Through The Grapevine (Official Music Video)"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-        />
+          title="Creedence Clearwater Revival - I Heard It Through The Grapevine (Official Music Video)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen>
+        </iframe>
       </VideoScreen>
 
       <LyricBox>
