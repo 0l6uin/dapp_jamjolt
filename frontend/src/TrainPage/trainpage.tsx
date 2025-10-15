@@ -149,7 +149,7 @@ const TrainPage: React.FC = () => {
     <Container>
       <VideoScreen>
         <iframe
-          src="https://www.youtube.com/embed/watch?v=wCCfc2vAuDU"
+          src="https://www.youtube.com/embed/wCCfc2vAuDU"
           title="I Heard It Through The Grapevine (Official Music Video)"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen

@@ -4,6 +4,7 @@ import TrainPage from './TrainPage/trainpage';
 import RecPage from './RecPage/recpage';
 import PostPage from './PostPage/postpage';
 import RankPage from './RankPage/rankpage';
+
 //import Navbar from './Navbar';
 
 const PageRoutes: React.FC = () => {
